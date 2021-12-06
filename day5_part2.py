@@ -30,10 +30,6 @@ with open(sys.argv[1], 'r') as fin:
             for key,value in points.items():
                 points[key] = int(value)
 
-            if points['startx'] > points['endx']:
-                points['startx'], points['endx'] = points['endx'], points['startx']
-            if points['starty'] > points['endy']:
-                points['starty'], points['endy'] = points['endy'], points['starty']
             lines.append(points)
 
             if int(points['startx']) > maxx:
@@ -53,17 +49,25 @@ print(f'Max Y: {maxy}')
 for i in range(maxy+1):
     grid.append([0 for i in range(maxx+1)])
 
-
-for line in lines:
+for i, line in enumerate(lines):
+    print(f'Adding line: {i} to grid ({line["startx"]},{line["starty"]} -> {line["endx"]},{line["endy"]})')
     if line['startx'] == line['endx']:  # vertical
         x = line['startx']
-    
+        
+        if line['starty'] > line['endy']:
+            line['starty'], line['endy'] = line['endy'], line['starty']
         for y in range(line['starty'], line['endy']+1):
            grid[y][x] += 1
     elif line['starty']== line['endy']: # horizontal
         y = line['starty']
-    
+        if line['startx'] > line['endx']:
+            line['startx'], line['endx'] = line['endx'], line['startx']
         for x in range(line['startx'], line['endx']+1):
+            grid[y][x] += 1
+    else:
+        xdir = 1 if line['startx'] <= line['endx'] else -1
+        ydir = 1 if line['starty'] <= line['endy'] else -1
+        for x,y in zip(range(line['startx'], line['endx'] + xdir, xdir), range(line['starty'], line['endy'] + ydir, ydir)):
             grid[y][x] += 1
         
 #printGrid(grid) 
