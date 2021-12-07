@@ -10,22 +10,19 @@ with open(sys.argv[1],'r') as fin:
     fish = list(map(int,fish.split(',')))
 
 
+fishctx = [0 for i in range(9)]
+
+for f in fish:
+    fishctx[f] += 1
+
 days = int(sys.argv[2])
 
 
-printFish(fish,'Initial State')
-
-
 for dn in range(days):
-    for i in range(len(fish)):
-        fish[i] -= 1
-    
-    for i in range(len(fish)):
-        if fish[i] == -1:
-            fish[i] = 6
-            fish.append(8)
+    print(fishctx)
+    fish0 = fishctx[0]
+    fishctx = fishctx[1:]
+    fishctx.append(fish0)
+    fishctx[6] += fish0
 
-    printFish(fish, 'After %4d days' % (dn+1))
-
-
-print(len(fish))
+print(sum(fishctx))
