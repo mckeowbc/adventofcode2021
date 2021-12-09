@@ -11,12 +11,7 @@ def determineWireConnections(obs : list) -> dict:
     mapping = {
     }
 
-    bd = None
-
     while len(mapping) < 10:
-        if bd is None and 4 in mapping and 1 in mapping:
-            bd = mapping[4] - mapping[1]
-
         for ob in obs:
             if ob in mapping.values():
                 continue
@@ -29,20 +24,17 @@ def determineWireConnections(obs : list) -> dict:
                 mapping[4] = ob
             elif len(ob) == 7:
                 mapping[8] = ob
-            elif len(ob) == 5 and bd is not None and not bd <= ob \
-                and 1 in mapping and not mapping[1] <= ob:
-                mapping[2] = ob
             elif len(ob) == 5 and 7 in mapping and mapping[7] <= ob:
                 mapping[3] = ob
-            elif bd is not None and len(ob) == 5 and bd <= ob:
+            elif len(ob) == 5 and 9 in mapping and ob <= mapping[9]:
                 mapping[5] = ob
+            elif len(ob) == 5 and 5 in mapping and 3 in mapping:
+                mapping[2] = ob
             elif len(ob) == 6 and 7 in mapping and not mapping[7] <= ob:
                 mapping[6] = ob
-            elif len(ob) == 6 and 7 in mapping and mapping[7] <= ob \
-                 and 4 in mapping and mapping[4] <= ob:
+            elif len(ob) == 6 and 3 in mapping and mapping[3] <= ob:
                  mapping[9] = ob
-            elif len(ob) == 6 and 7 in mapping and mapping[7] <= ob \
-                and 4 in mapping and not mapping[4] <= ob:
+            elif len(ob) == 6 and 9 in mapping and 6 in mapping:
                 mapping[0] = ob
     return mapping
 
